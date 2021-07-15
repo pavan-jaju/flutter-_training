@@ -62,11 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   double calculateCartCost() {
-    return 0;
+    double price = 0;
+    //_selectedNames.add(productId);
+    // var itemRate = products[productId].rate;
+    // price = price + itemRate;
+    selectedProducts.forEach((key, value) {
+      price += value * products[key].rate;
+    });
+    // selectedProducts.addEntries([MapEntry(productId, 1)]);
+    return price;
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Building...");
     return Scaffold(
       appBar: AppBar(
         title: Text("Hey!"),
