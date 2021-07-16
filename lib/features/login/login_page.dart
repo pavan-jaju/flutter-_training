@@ -1,6 +1,9 @@
+import 'package:e_comm_app/features/_common/app_state.dart';
+import 'package:e_comm_app/features/_model/user.dart';
 import 'package:e_comm_app/features/forgot_password/forgot_password.dart';
 import 'package:e_comm_app/features/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -62,10 +65,14 @@ class _LoginPageState extends State<LoginPage> {
         _isLoading = true;
       });
 
-      Future.delayed(Duration(seconds: 2), () {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
-      });
+      var user = User(_email!, _password!);
+
+      Get.find<AppState>().logInUser(user);
+
+      // Future.delayed(Duration(seconds: 2), () {
+      //   Navigator.pushReplacement(
+      //       context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      // });
     }
   }
 

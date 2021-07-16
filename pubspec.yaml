@@ -33,6 +33,11 @@ dependencies:
   get: ^4.1.4
 #  qr_utils: ^0.1.5
 
+  dio: ^4.0.0
+  shared_preferences: ^2.0.6
+  sqflite: ^2.0.0+3
+  path: ^1.8.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

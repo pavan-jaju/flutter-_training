@@ -1,16 +1,27 @@
-import 'package:e_comm_app/counter_with_getx.dart';
+import 'dart:io';
+
+import 'package:e_comm_app/features/_common/app_state.dart';
+import 'package:e_comm_app/features/_repo/db_helper.dart';
+import 'package:e_comm_app/features/_repo/product_repo.dart';
+import 'package:e_comm_app/features/home/home_page.dart';
+import 'package:e_comm_app/features/login/login_page.dart';
 import 'package:e_comm_app/features/splash_screen/splash_screen.dart';
-import 'package:e_comm_app/provider_example.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() {
-  Get.put(CounterX());
-  Get.put(AppStateX());
-  Get.put(TestData());
+Future<void> main() async {
+  Get.put(AppState());
+  Get.put(ProductRepo());
+
+  // Get.putAsync(() async {
+  //   var dbHelper = DbHelper();
+  //   await dbHelper.init();
+  //   return dbHelper;
+  // });
 
   runApp(MyApp());
 }
@@ -18,29 +29,21 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: "E-Comm",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.green,
       ),
-      home: CounterXPage(),
+      home: Obx(() {
+        var curState = Get.find<AppState>().state.value;
+
+        if (curState == AppStateEnum.AUTHENTICATED) return HomeScreen();
+        if (curState == AppStateEnum.NOT_AUTHENTICATED) return LoginPage();
+
+        return SplashScreen();
+      }),
     );
-    // return MultiProvider(
-    //   providers: [
-    //     ChangeNotifierProvider(
-    //       create: (context) => CounterWithProvider(),
-    //     )
-    //   ],
-    //   child: MaterialApp(
-    //     title: "E-Comm",
-    //     debugShowCheckedModeBanner: false,
-    //     theme: ThemeData(
-    //       primaryColor: Colors.green,
-    //     ),
-    //     home: CounterProviderPage(),
-    //   ),
-    // );
   }
 }
 
