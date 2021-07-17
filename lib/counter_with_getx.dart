@@ -52,12 +52,12 @@ class CounterXPage extends StatelessWidget {
                 child: Diplay2XWidget(),
               ),
             ),
-            Expanded(
-              child: Container(
-                color: Colors.blue,
-                child: DiplayNameWidget(),
-              ),
-            ),
+            // Expanded(
+            //   child: Container(
+            //     color: Colors.blue,
+            //     child: DiplayNameWidget(),
+            //   ),
+            // ),
             Expanded(child: Container(child: IncrementerXWidget()))
           ],
         ),
@@ -72,7 +72,10 @@ class DiplayXWidget extends StatelessWidget {
     debugPrint(" ================= > DiplayXWidget build called");
     return Center(child: Obx(() {
       debugPrint(" ================= > DiplayXWidget obx called");
-      return Text("I am count ${Get.find<AppStateX>().getCount1()}");
+      return Text(
+        "I am count ${Get.find<AppStateX>().getCount1()}",
+        key: ValueKey("increment1Value"),
+      );
     }));
   }
 }
@@ -115,6 +118,7 @@ class IncrementerXWidget extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
+              key: ValueKey("increment1"),
               onPressed: () {
                 Get.find<AppStateX>().incrementCount1();
               },

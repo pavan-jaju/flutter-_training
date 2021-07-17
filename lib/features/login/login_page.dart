@@ -88,81 +88,83 @@ class _LoginPageState extends State<LoginPage> {
           title: Text("Login here"),
           centerTitle: true,
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 25),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  autofocus: true,
-                  focusNode: _emailFocusNode,
-                  controller: _emailTextController,
-                  decoration: InputDecoration(
-                    hintText: "your@email.com",
-                    labelText: "Email",
-                    prefix: Icon(Icons.email),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 25),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    autofocus: true,
+                    focusNode: _emailFocusNode,
+                    controller: _emailTextController,
+                    decoration: InputDecoration(
+                      hintText: "your@email.com",
+                      labelText: "Email",
+                      prefix: Icon(Icons.email),
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty)
+                        return "Please provide your email";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _email = value;
+                    },
+                    onEditingComplete: () {},
+                    onFieldSubmitted: (value) {
+                      _passwordFocusNode.requestFocus();
+                    },
                   ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty)
-                      return "Please provide your email";
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _email = value;
-                  },
-                  onEditingComplete: () {},
-                  onFieldSubmitted: (value) {
-                    _passwordFocusNode.requestFocus();
-                  },
-                ),
-                SizedBox(height: 8),
-                TextFormField(
-                  focusNode: _passwordFocusNode,
-                  controller: _passwordTextController,
-                  decoration: InputDecoration(
-                      hintText: "your password...",
-                      labelText: "Password",
-                      prefix: Icon(Icons.vpn_key)),
-                  // obscureText: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty)
-                      return "Please provide your password";
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _password = value;
-                  },
-                  onFieldSubmitted: (_) => handleSubmit(),
-                ),
-                SizedBox(height: 16),
-                Offstage(
-                  offstage: _isLoading,
-                  child: ElevatedButton(
-                      onPressed: handleSubmit, child: Text("Login")),
-                ),
-                Offstage(
-                    offstage: !_isLoading, child: CircularProgressIndicator()),
-                SizedBox(height: 16),
-                MaterialButton(
-                  onPressed: () async {
-                    _formKey.currentState!.reset();
-                    // Navigator.pop(context);
+                  SizedBox(height: 8),
+                  TextFormField(
+                    focusNode: _passwordFocusNode,
+                    controller: _passwordTextController,
+                    decoration: InputDecoration(
+                        hintText: "your password...",
+                        labelText: "Password",
+                        prefix: Icon(Icons.vpn_key)),
+                    // obscureText: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty)
+                        return "Please provide your password";
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _password = value;
+                    },
+                    onFieldSubmitted: (_) => handleSubmit(),
+                  ),
+                  SizedBox(height: 16),
+                  Offstage(
+                    offstage: _isLoading,
+                    child: ElevatedButton(
+                        onPressed: handleSubmit, child: Text("Login")),
+                  ),
+                  Offstage(
+                      offstage: !_isLoading,
+                      child: CircularProgressIndicator()),
+                  SizedBox(height: 16),
+                  MaterialButton(
+                    onPressed: () async {
+                      // _formKey.currentState!.reset();
+                      // Navigator.pop(context);
 
-                    // debugPrint("going to forgot pass");
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (_) => ForgotPassword()));
-                    // if (res == true) {
-                    //   debugPrint("success");
-                    // } else {
-                    //   debugPrint("failed");
-                    // }
-                  },
-                  child: Text("Forgot Password?"),
-                )
-              ],
+                      // debugPrint("going to forgot pass");
+                      Get.to(ForgotPassword());
+                      // if (res == true) {
+                      //   debugPrint("success");
+                      // } else {
+                      //   debugPrint("failed");
+                      // }
+                    },
+                    child: Text("Forgot Password?"),
+                  )
+                ],
+              ),
             ),
           ),
         ),

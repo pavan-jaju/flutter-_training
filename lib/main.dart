@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:e_comm_app/counter_with_getx.dart';
 import 'package:e_comm_app/features/_common/app_state.dart';
+import 'package:e_comm_app/features/_common/firebase_handler.dart';
 import 'package:e_comm_app/features/_repo/db_helper.dart';
 import 'package:e_comm_app/features/_repo/product_repo.dart';
 import 'package:e_comm_app/features/home/home_page.dart';
@@ -14,8 +16,15 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await FirebaseHandler.init();
+
   Get.put(AppState());
   Get.put(ProductRepo());
+
+  Get.put(AppStateX());
+  Get.put(CounterX());
 
   // Get.putAsync(() async {
   //   var dbHelper = DbHelper();
@@ -30,20 +39,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: "E-Comm",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.green,
-      ),
-      home: Obx(() {
-        var curState = Get.find<AppState>().state.value;
-
-        if (curState == AppStateEnum.AUTHENTICATED) return HomeScreen();
-        if (curState == AppStateEnum.NOT_AUTHENTICATED) return LoginPage();
-
-        return SplashScreen();
-      }),
-    );
+        title: "E-Comm",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.green,
+        ),
+        home: CounterXPage()
+        // home: Obx(() {
+        //   var curState = Get.find<AppState>().state.value;
+        //
+        //   if (curState == AppStateEnum.AUTHENTICATED) return HomeScreen();
+        //   if (curState == AppStateEnum.NOT_AUTHENTICATED) return LoginPage();
+        //
+        //   return SplashScreen();
+        // }),
+        );
   }
 }
 

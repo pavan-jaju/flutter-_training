@@ -2,6 +2,7 @@ import 'package:e_comm_app/features/_common/app_state.dart';
 import 'package:e_comm_app/features/_model/product.dart';
 import 'package:e_comm_app/features/home/widget/category_selector.dart';
 import 'package:e_comm_app/features/home/widget/list_item_counter.dart';
+import 'package:e_comm_app/features/product_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,16 +57,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Card(
                     child: ListTile(
                       // leading: Image.asset('images/products/placeholder.png'),
-                      leading: Image.network(
-                        product.imageUrl,
-                        height: 70,
-                        width: 70,
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, o, s) => Image.asset(
-                          'images/products/placeholder.png',
+                      onTap: () {
+                        Get.to(ProductDetailsScreen(prod: product));
+                      },
+                      leading: Hero(
+                        tag: product.id,
+                        child: Image.network(
+                          product.imageUrl,
                           height: 70,
                           width: 70,
                           fit: BoxFit.contain,
+                          errorBuilder: (_, o, s) => Image.asset(
+                            'images/products/placeholder.png',
+                            height: 70,
+                            width: 70,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                       title: Column(
